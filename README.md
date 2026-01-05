@@ -1,6 +1,6 @@
-# CLV Prediction
+# :shopping_cart: CLV Prediction
 
-## Business Problem
+## 📌Business Problem
 Predict **6-month Customer Lifetime Value (CLV)** for each customer based on historical transaction behavior from the
 [Online Retail II dataset](https://archive.ics.uci.edu/dataset/502/online+retail+ii).
 
@@ -36,7 +36,7 @@ The modeling dataset is a **single snapshot**, customer-level table created usin
 
 ---
 
-##  Project Background
+## 💡Project Background
 
 This repo extends a machine learning notebook into a full MLOps workflow following the Machine Learning Zoomcamp Capstone Project guidelines. 
 
@@ -57,7 +57,7 @@ It covers:
 
 ---
 
-## Tech Stack & Architecture
+## ⚙️ Tech Stack & Architecture
 
 | Tool                    | Purpose                                |
 | ----------------------- | -------------------------------------- |
@@ -74,7 +74,7 @@ System flow:
 
 ---
 
-# Model Training
+# 🤖 Model Training
 
 Multiple models were trained and evaluated:
 - Linear Regression
@@ -85,7 +85,7 @@ The best-performing pipeline was registered in `MLflow` with metrics logged and 
 
 ---
 
-## Reproducibility
+## 🧪Reproducibility
 
 All experiments are reproducible via:
 - Locked dependencies (`uv.lock`)
@@ -97,7 +97,7 @@ All experiments are reproducible via:
 
 ---
 
-## Model Deployment
+## 🚀 Model Deployment
 The model is deployed using FastAPI and served via `api.py`. It exposes:
 - `/predict` endpoint for real-time predictions
 - `/health` endpoint for service status
@@ -105,14 +105,14 @@ The model is deployed using FastAPI and served via `api.py`. It exposes:
 
 ---
 
-## Monitoring
+## 📈 Monitoring
 Prometheus and Grafana are integrated for live monitoring:
 - Request count, latency, and response size
 - Dashboard panels for operational metrics
 - Docker Compose orchestrates all services
 
-## Project Structure
-
+## 📁 Project Structure
+```
 .
 ├── .github/workflows/
 │ └── ci.yaml
@@ -142,11 +142,11 @@ Prometheus and Grafana are integrated for live monitoring:
 ├── pyproject.toml
 ├── requirement.txt
 └── README.md
-
+```
 
 ---
 
-## Project Usage Guide
+## :anchor: Project Usage Guide
 
 This section describes how to set up, train, orchestrate, test, and serve the CLV prediction system following a production-oriented ML workflow.
 
