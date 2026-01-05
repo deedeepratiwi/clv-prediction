@@ -111,39 +111,6 @@ Prometheus and Grafana are integrated for live monitoring:
 - Dashboard panels for operational metrics
 - Docker Compose orchestrates all services
 
-## 📁 Project Structure
-```
-.
-├── .github/workflows/
-│ └── ci.yaml
-├── data/                               # Ignored
-│ ├── raw/ 
-│ └── processed/
-├── images/
-├── monitoring/
-│ └── prometheus.yml
-├── notebooks/
-│ ├── 01_eda_raw_data.ipynb
-│ ├── 02_target_contruction.ipynb
-│ ├── 03_feature_engineering.ipynb
-│ └── 04_train_baseline.ipynb
-├── src/
-│ ├── api.py                            # FastAPI service
-│ ├── train.py                          # Model training + MLflow logging
-│ ├── predict.py                        # Inference logic
-│ └── train_flow.py                     # Prefect orchestration
-├── tests/
-│ ├── test_api.py                       # Integration test
-│ └── test_predictor.py                 # Unit test
-├── models/                             # Ignored (artifacts)
-├── docker-compose.yml 
-├── Dockerfile
-├── Makefile
-├── pyproject.toml
-├── requirement.txt
-└── README.md
-```
-
 ---
 
 ## :anchor: Project Usage Guide
@@ -212,7 +179,7 @@ This will:
 
 To inspect experiments:
 ```
-mlflow ui --backend-store-uri sqlite:///mlflow.db
+mlflow ui
 ```
 
 Open: http://localhost:5000
@@ -338,3 +305,40 @@ pre-commit install
 ```
 - CI/CD:
     - GitHub Actions automatically run linting and tests on every push and PR.
+
+---
+
+## 📁 Project Structure
+```
+.
+├── .github/workflows/
+│ └── ci.yaml
+├── data/                               # Ignored
+│ ├── raw/ 
+│ └── processed/
+├── images/
+├── monitoring/
+│ └── prometheus.yml
+├── notebooks/
+│ ├── 01_eda_raw_data.ipynb
+│ ├── 02_target_contruction.ipynb
+│ ├── 03_feature_engineering.ipynb
+│ └── 04_train_baseline.ipynb
+├── src/
+│ ├── api.py                            # FastAPI service
+│ ├── train.py                          # Model training + MLflow logging
+│ ├── predict.py                        # Inference logic
+│ └── train_flow.py                     # Prefect orchestration
+├── tests/
+│ ├── test_api.py                       # Integration test
+│ └── test_predictor.py                 # Unit test
+├── models/                             # Ignored (artifacts)
+├── docker-compose.yml 
+├── Dockerfile
+├── Makefile
+├── pyproject.toml
+├── requirement.txt
+└── README.md
+```
+
+---
