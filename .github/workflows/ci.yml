@@ -20,7 +20,10 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: uv sync --locked
+        run: uv sync --locked --all-groups
+
+      - name: Debug installed packages
+        run: uv pip list
 
       - name: Lint
         run: uv run ruff check .
