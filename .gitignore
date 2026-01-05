@@ -39,14 +39,6 @@ mlartifacts/
 .prefectignore
 
 # =========================
-# Model artifacts
-# =========================
-models/
-*.pkl
-*.joblib
-*.onnx
-
-# =========================
 # Data (raw & intermediate)
 # =========================
 data/raw/
