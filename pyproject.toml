@@ -1,0 +1,35 @@
+[project]
+name = "clv-prediction"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.128.0",
+    "mlflow>=3.8.1",
+    "numpy>=2.2.6",
+    "pandas>=2.3.3",
+    "prometheus-client>=0.23.1",
+    "pyarrow>=22.0.0",
+    "scikit-learn>=1.7.2",
+    "scipy>=1.15.3",
+    "uvicorn>=0.40.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+filterwarnings = [
+  "ignore::sklearn.exceptions.InconsistentVersionWarning",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 88
+fix = true
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

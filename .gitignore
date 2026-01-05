@@ -1,0 +1,74 @@
+# =========================
+# Python-generated files
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Build / packaging
+build/
+dist/
+wheels/
+*.egg-info/
+.eggs/
+
+# =========================
+# Virtual environments
+# =========================
+.venv/
+venv/
+env/
+.env
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# MLflow
+# =========================
+mlruns/
+mlartifacts/
+
+# =========================
+# Prefect
+# =========================
+.prefect/
+.prefectignore
+
+# =========================
+# Model artifacts
+# =========================
+models/
+*.pkl
+*.joblib
+*.onnx
+
+# =========================
+# Data (raw & intermediate)
+# =========================
+data/raw/
+data/processed/
+*.parquet
+*.csv
+
+# =========================
+# Logs & runtime files
+# =========================
+logs/
+*.log
+
+# =========================
+# OS / Editor
+# =========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# =========================
+# Docker
+# =========================
+docker-compose.override.yml

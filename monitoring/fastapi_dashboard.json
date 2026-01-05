@@ -1,0 +1,77 @@
+{
+  "id": null,
+  "title": "CLV Prediction Monitoring",
+  "tags": ["clv", "ml", "fastapi", "prometheus"],
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "5s",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Prediction Rate (req/s)",
+      "targets": [
+        {
+          "expr": "sum(rate(clv_requests_total[1m]))",
+          "refId": "A"
+        }
+      ],
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 }
+    },
+    {
+      "type": "stat",
+      "title": "Total Predictions",
+      "targets": [
+        {
+          "expr": "clv_requests_total",
+          "refId": "B"
+        }
+      ],
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 }
+    },
+    {
+      "type": "stat",
+      "title": "P95 Prediction Latency (s)",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, rate(clv_request_latency_seconds_bucket[5m]))",
+          "refId": "C"
+        }
+      ],
+      "gridPos": { "x": 12, "y": 0, "w": 6, "h": 4 }
+    },
+    {
+      "type": "stat",
+      "title": "Avg Prediction Latency (s)",
+      "targets": [
+        {
+          "expr": "rate(clv_request_latency_seconds_sum[1m]) / rate(clv_request_latency_seconds_count[1m])",
+          "refId": "D"
+        }
+      ],
+      "gridPos": { "x": 18, "y": 0, "w": 6, "h": 4 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Prediction Rate Over Time",
+      "targets": [
+        {
+          "expr": "rate(clv_requests_total[1m])",
+          "refId": "E"
+        }
+      ],
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 6 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Prediction Latency Over Time (avg)",
+      "targets": [
+        {
+          "expr": "rate(clv_request_latency_seconds_sum[1m]) / rate(clv_request_latency_seconds_count[1m])",
+          "refId": "F"
+        }
+      ],
+      "gridPos": { "x": 12, "y": 4, "w": 12, "h": 6 }
+    }
+  ]
+}
