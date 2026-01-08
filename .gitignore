@@ -39,14 +39,6 @@ mlartifacts/
 .prefectignore
 
 # =========================
-# Data (raw & intermediate)
-# =========================
-data/raw/
-data/processed/
-*.parquet
-*.csv
-
-# =========================
 # Logs & runtime files
 # =========================
 logs/
