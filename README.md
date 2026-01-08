@@ -1,4 +1,4 @@
-# :shopping_cart: CLV Prediction
+# 🛒 CLV Prediction
 
 ## 📌Business Problem
 Predict **6-month Customer Lifetime Value (CLV)** for each customer based on historical transaction behavior from the
@@ -38,7 +38,7 @@ The modeling dataset is a **single snapshot**, customer-level table created usin
 
 ## 💡Project Background
 
-This repo extends a machine learning notebook into a full MLOps workflow following the Machine Learning Zoomcamp Capstone Project guidelines. 
+This repo extends a machine learning notebook into a full MLOps workflow following the [Machine Learning Zoomcamp](https://github.com/DataTalksClub/machine-learning-zoomcamp) Capstone Project guidelines. 
 
 It covers:
 - Data preparation and EDA
@@ -47,6 +47,7 @@ It covers:
 - Serving via FastAPI
 - Monitoring using Prometheus and Grafana (additional)
 - Docker for reproducibility
+- Cloud deployment using GCP
 - Applying best practices (additional):
     - Unit tests
     - Integration test
@@ -67,7 +68,8 @@ It covers:
 | FastAPI, Docker         | Serving and containerization           |
 | Prometheus + Grafana    | Monitoring metrics and dashboards      |
 | GitHub Actions          | CI/CD pipeline                         |
-| Black + Ruff            | Code Quality                           |
+| Black + Ruff            | Code quality                           |
+| GCP Cloud Run           | Cloud deplyment                        |
 
 System flow:
 `online_retail_II.xlsx` → `train.py` (MLflow logs & registered the best model) → `FastAPI app` (serves model) → `Docker + docker-compose` → Prometheus scrapes `/metrics` → Grafana dashboards visualize.
@@ -97,14 +99,6 @@ All experiments are reproducible via:
 
 ---
 
-## 🚀 Model Deployment
-The model is deployed using FastAPI and served via `api.py`. It exposes:
-- `/predict` endpoint for real-time predictions
-- `/health` endpoint for service status
-- `/metrics` endpoint for Prometheus monitoring
-
----
-
 ## 📈 Monitoring
 Prometheus and Grafana are integrated for live monitoring:
 - Request count, latency, and response size
@@ -113,12 +107,45 @@ Prometheus and Grafana are integrated for live monitoring:
 
 ---
 
-## :anchor: Project Usage Guide
+## ☁️ Cloud Deployment (GCP)
+
+The FastAPI inference service is deployed on **Google Cloud Run**.
+
+**Build Docker Image**
+```bash
+gcloud builds submit \
+  --tag asia-southeast2-docker.pkg.dev/clv-prediction-479007/clv-repo/clv-api:latest
+gcloud run deploy clv-api \
+  --image asia-southeast2-docker.pkg.dev/clv-prediction-479007/clv-repo/clv-api:latest \
+  --platform managed \
+  --allow-unauthenticated \
+  --port 8000
+```
+**Live Service**
+
+- Base URL: [https://clv-api-xxxxx-uc.a.run.app](https://clv-api-696779814192.asia-southeast2.run.app/)
+- Health check: `/health`
+- Prediction endpoint: `/predict`
+
+**Example Request**
+```bash
+curl -X POST "https://clv-api-696779814192.asia-southeast2.run.app/predict" \
+  -H "Content-Type: application/json" \
+  -d @test.json
+```
+
+![GCP Predict](images/gcp_predict.png)
+
+![GCP Monitoring](images/gcp_monitoring.png)
+
+---
+
+## ⚓ Project Usage Guide
 
 This section describes how to set up, train, orchestrate, test, and serve the CLV prediction system following a production-oriented ML workflow.
 
 ### 1. Clone the Repository
-```
+```bash
 git clone https://github.com/deedeepratiwi/clv-prediction.git
 cd clv-prediction
 ```
@@ -126,13 +153,13 @@ cd clv-prediction
 ### 2. Environment & Dependency Setup
 
 This project uses uv for fast, reproducible dependency management.
-```
+```bash
 uv venv
 uv sync --locked
 ```
 
 Activate the environment if needed:
-```
+```bash
 source .venv/bin/activate  # Linux / macOS
 .venv\Scripts\activate     # Windows
 ```
