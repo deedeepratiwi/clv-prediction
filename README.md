@@ -74,6 +74,8 @@ It covers:
 System flow:
 `online_retail_II.xlsx` → `train.py` (MLflow logs & registered the best model) → `FastAPI app` (serves model) → `Docker + docker-compose` → Prometheus scrapes `/metrics` → Grafana dashboards visualize.
 
+![Diagram](images/diagram.png)
+
 ---
 
 ## 🤖 Model Training
