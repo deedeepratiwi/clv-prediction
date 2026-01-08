@@ -93,9 +93,8 @@ All experiments are reproducible via:
 - Locked dependencies (`uv.lock`)
 - Training logic is exported to `train.py`
 - Prediction logic is in `predict.py`
-- Deterministic feature pipeline
-- Versioned training scripts
-- MLflow experiment tracking
+- MLflow is used for experiment tracking and model registry
+- SQLite backend ensures local reproducibility
 
 ---
 
