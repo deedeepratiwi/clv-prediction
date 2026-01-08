@@ -95,6 +95,7 @@ All experiments are reproducible via:
 - Prediction logic is in `predict.py`
 - MLflow is used for experiment tracking and model registry
 - SQLite backend ensures local reproducibility
+- Dataset is publicly available on Kaggle with download instructions in the notebook and README
 
 ---
 
@@ -114,6 +115,7 @@ The FastAPI inference service is deployed on **Google Cloud Run**.
 ```bash
 gcloud builds submit \
   --tag asia-southeast2-docker.pkg.dev/clv-prediction-479007/clv-repo/clv-api:latest
+
 gcloud run deploy clv-api \
   --image asia-southeast2-docker.pkg.dev/clv-prediction-479007/clv-repo/clv-api:latest \
   --platform managed \
@@ -122,7 +124,7 @@ gcloud run deploy clv-api \
 ```
 **Live Service**
 
-- Base URL: [https://clv-api-xxxxx-uc.a.run.app](https://clv-api-696779814192.asia-southeast2.run.app/)
+- Base URL: [https://clv-api-696779814192.asia-southeast2.run.app/](https://clv-api-696779814192.asia-southeast2.run.app/)
 - Health check: `/health`
 - Prediction endpoint: `/predict`
 
