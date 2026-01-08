@@ -76,7 +76,7 @@ System flow:
 
 ---
 
-# 🤖 Model Training
+## 🤖 Model Training
 
 Multiple models were trained and evaluated:
 - Linear Regression
@@ -84,6 +84,68 @@ Multiple models were trained and evaluated:
 - Gradient Boosting Regressor
 
 The best-performing pipeline was registered in `MLflow` with metrics logged and artifacts stored.
+
+To train model:
+```
+make run
+```
+
+This will:
+- Train multiple models
+- Log metrics and artifacts (MLflow)
+- Export the best model to models/
+
+A trained and validated model pipeline was exported to the `models/` directory and is treated as the production artifact.
+```
+models/
+└── clv_linear_regression/
+```
+
+This model artifact is used directly by:
+- predict.py
+- FastAPI inference service
+- Dockerized deployment
+- Cloud Run deployment
+
+---
+## 🔬 Experiment Tracking
+
+This project uses MLFlow to track experiment and model registry.
+To view experiment:
+```
+mlflow ui
+```
+
+Open: http://localhost:5000
+
+You can explore:
+- Experiments
+- Runs
+- Registered models
+
+![MLFlow](images/mlflow.png)
+
+
+---
+## 🎯Workflow Orchestration (Prefect)
+
+Prefect shows how training can be orchestrated as a batch workflow.
+
+To start the Prefect UI:
+```
+prefect server start
+```
+
+To run the training flow:
+```
+python src/train_flow.py
+```
+This:
+- Executes the training pipeline
+- Adds retries and observability
+- Simulates a production batch job
+
+![Prefect](images/prefect.png)
 
 ---
 
@@ -141,175 +203,7 @@ curl -X POST "https://clv-api-696779814192.asia-southeast2.run.app/predict" \
 
 ---
 
-## ⚓ Project Usage Guide
-
-This section describes how to set up, train, orchestrate, test, and serve the CLV prediction system following a production-oriented ML workflow.
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/deedeepratiwi/clv-prediction.git
-cd clv-prediction
-```
-
-### 2. Environment & Dependency Setup
-
-This project uses uv for fast, reproducible dependency management.
-```bash
-uv venv
-uv sync --locked
-```
-
-Activate the environment if needed:
-```bash
-source .venv/bin/activate  # Linux / macOS
-.venv\Scripts\activate     # Windows
-```
-
-### 3. Download the Dataset
-
-Download the dataset from [UCI Online Retail II](https://archive.ics.uci.edu/dataset/502/online+retail+ii) and place it in the `data/` folder:
-```
-data/
-├── raw/
-│   └── online_retail_II.xlsx
-├── processed/
-```
-
-### 4. Exploratory Data Analysis (EDA)
-
-EDA is performed in notebooks for transparency and reproducibility.
-```
-notebooks/
-├── 01_eda_raw_data.ipynb
-├── 02_target_construction.ipynb
-├── 03_feature_engineering.ipynb
-├── 04_train_baseline.ipynb
-```
-These notebooks analyze:
-- missing values
-- feature distributions
-- CLV target behavior
-- feature relevance
-
-Note: Notebooks are for exploration only. Production logic lives in `src/`.
-
-### 5. Model Training & Experiment Tracking (MLflow)
-
-To train models and log experiments:
-```
-make run
-```
-
-This will:
-- Train multiple models
-- Track metrics and artifacts using MLflow
-- Register the best-performing model in the Model Registry
-
-To inspect experiments:
-```
-mlflow ui
-```
-
-Open: http://localhost:5000
-
-You can explore:
-- Experiments
-- Runs
-- Registered models
-
-![MLFlow](images/mlflow.png)
-
-### 6. Workflow Orchestration (Prefect)
-The training pipeline is orchestrated using Prefect, enabling reproducible and observable workflows.
-
-To run the Prefect flow locally:
-```
-perfect server start
-```
-
-```
-python src/train_flow.py
-```
-The flow coordinates:
-- data loading
-- feature preparation
-- model training
-- model registration
-
-This simulates a production-style batch ML pipeline.
-
-![Prefect](images/prefect.png)
-
-### 7. Model Inference (Local)
-
-To run a sample prediction using the trained model:
-```
-python src/test_predict.py
-```
-
-Expected output:
-```
-Predicted_clv_6m: 8051.121461205699
-```
-
-### 8. API Service (FastAPI)
-
-Run the prediction service locally:
-```
-make api
-```
-
-Available endpoints:
-- `POST /predict` → Generate CLV predictions
-- `GET /health` → Service health check
-- `GET /metrics` → Prometheus metrics
-
-API docs:
-`http://localhost:8000/docs` 
-
-Example request:
-```
-curl -X POST "http://localhost:8000/predict" \
-     -H "Content-Type: application/json" \
-     -d @./test.json
-```
-
-Expected result:
-```
-{"predicted_clv_6m":8051.121461205699}
-```
-
-### 9. Containerized Deployment (Docker)
-
-Run the full stack using Docker Compose:
-```
-docker-compose up --build
-```
-
-This starts:
-- FastAPI services
-- Prometheus (metrics collection)
-- Grafana (monitoring dashboard)
-
-### 10. Monitoring & Observability
-
-- **FastAPI**: http://localhost:8000/docs
-
-![FastAPI App](images/predict.png)
-
-- **Prometheus**: http://localhost:9090
-    - Example metric: `clv_request_latency_seconds_bucket`
-
-![Prometheus](images/prometheus.png)
-
-- **Grafana**: http://localhost:3000
-    - Login: `admin` / `admin`
-    - Add new connection: http://prometheus:9090
-    - Import dashboard JSON from `monitoring/`
-
-![Grafana FastAPI Monitoring](images/grafana.png)
-
-### 11. Best Practices & Automation
+## 👍Best Practices (Testing, Linting, and Quality Checks)
 
 This project follows industry best practices:
 - Unit & integration tests:
@@ -337,6 +231,99 @@ pre-commit install
 ```
 - CI/CD:
     - GitHub Actions automatically run linting and tests on every push and PR.
+
+---
+
+## ⚓ Project Usage Guide
+
+This section describes how to set up, train, orchestrate, test, and serve the CLV prediction system following a production-oriented ML workflow.
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/deedeepratiwi/clv-prediction.git
+cd clv-prediction
+```
+
+### 2. Environment & Dependency Setup
+
+This project uses uv for fast, reproducible dependency management.
+```bash
+uv venv
+uv sync --locked
+```
+
+Activate the environment if needed:
+```bash
+source .venv/bin/activate  # Linux / macOS
+.venv\Scripts\activate     # Windows
+```
+
+### 3. Quick Sanity Check (Local Prediction)
+
+Before running any services, verify inference works.
+```
+python src/test_predict.py
+```
+
+Expected output:
+```
+Predicted_clv_6m: 8051.121461205699
+```
+
+### 4. Run the API Locally
+
+Start the FastAPI inference service:
+```
+make api
+```
+Available endpoints:
+- `POST /predict` → Generate CLV predictions
+- `GET /health` → Service health check
+- `GET /metrics` → Prometheus metrics
+
+API docs:
+`http://localhost:8000/docs` 
+
+Example request:
+```
+curl -X POST "http://localhost:8000/predict" \
+     -H "Content-Type: application/json" \
+     -d @./test.json
+```
+
+Expected result:
+```
+{"predicted_clv_6m":8051.121461205699}
+```
+
+### 5. Run the Full Stack (Docker + Monitoring)
+
+This is the production-style setup.
+```
+docker-compose up --build
+```
+This starts:
+- FastAPI services
+- Prometheus (metrics collection)
+- Grafana (monitoring dashboard)
+
+### 6. Monitoring & Observability
+
+- **FastAPI**: http://localhost:8000/docs
+
+![FastAPI App](images/predict.png)
+
+- **Prometheus**: http://localhost:9090
+    - Example metric: `clv_request_latency_seconds_bucket`
+
+![Prometheus](images/prometheus.png)
+
+- **Grafana**: http://localhost:3000
+    - Login: `admin` / `admin`
+    - Add new connection: http://prometheus:9090
+    - Import dashboard JSON from `monitoring/`
+
+![Grafana FastAPI Monitoring](images/grafana.png)
 
 ---
 

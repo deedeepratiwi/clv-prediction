@@ -5,11 +5,16 @@ from pathlib import Path
 from prefect import flow, task
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PYTHON = sys.executable  # MUST be venv python
 
 
 @task(retries=2, retry_delay_seconds=30, log_prints=True)
 def train():
-    subprocess.run([sys.executable, "src/train.py"], check=True, cwd=PROJECT_ROOT)
+    subprocess.run(
+        [PYTHON, "src/train.py"],
+        check=True,
+        cwd=PROJECT_ROOT,
+    )
 
 
 @flow(name="clv_training_pipeline")
