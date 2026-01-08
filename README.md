@@ -224,6 +224,10 @@ The training pipeline is orchestrated using Prefect, enabling reproducible and o
 
 To run the Prefect flow locally:
 ```
+perfect server start
+```
+
+```
 python src/train_flow.py
 ```
 The flow coordinates:

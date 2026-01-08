@@ -9,6 +9,7 @@ dependencies = [
     "mlflow>=3.8.1",
     "numpy>=2.2.6",
     "pandas>=2.3.3",
+    "prefect>=3.6.9",
     "prometheus-client>=0.23.1",
     "pyarrow>=22.0.0",
     "scikit-learn>=1.7.2",
